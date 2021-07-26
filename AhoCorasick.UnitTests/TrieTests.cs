@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AhoCorasick.UnitTests.Fixtures;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,47 @@ namespace AhoCorasick.UnitTests
             var result = matches.First();
             Assert.AreEqual(result.Pattern, searchTerm);
             Assert.AreEqual(result.Indices.First(), textToBeSearched.IndexOf(searchTerm));
+        }
+
+        [TestMethod]
+        public void Serialization()
+        {
+            var textToBeSearched = "Where is Aho-Corasick?";
+            var searchTerm = "Aho-Corasick";
+
+            var trie = new Trie();
+            trie.AddPattern(searchTerm);
+            trie.ProcessFailureLinks();
+
+            trie = Trie.Deserialize(trie.Serialize());
+
+            trie.ProcessFailureLinks();
+            var matches = trie.FindAllMatches(textToBeSearched);
+
+            Assert.AreEqual(matches.Count, 1);
+
+            var result = matches.First();
+            Assert.AreEqual(result.Pattern, searchTerm);
+            Assert.AreEqual(result.Indices.First(), textToBeSearched.IndexOf(searchTerm));
+        }
+
+        [TestMethod]
+        public void SearchOneTermWithComparer()
+        {
+            var textToBeSearched = "Where is Aho-Corasick?";
+            var searchTerm = "AHO-CORASICK";
+
+            var trie = new Trie();
+            trie.AddPattern(searchTerm);
+            trie.ProcessFailureLinks();
+
+            var matches = trie.FindAllMatches(textToBeSearched, new CharComparerInvariant());
+
+            Assert.AreEqual(matches.Count, 1);
+            
+            var result = matches.First();
+            Assert.AreEqual(result.Pattern, searchTerm);
+            Assert.AreEqual(result.Indices.First(), textToBeSearched.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase));
         }
 
         [TestMethod]

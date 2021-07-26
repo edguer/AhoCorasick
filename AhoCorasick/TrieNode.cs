@@ -71,12 +71,12 @@ namespace AhoCorasick
         /// </summary>
         /// <param name="character">Character being searched for.</param>
         /// <returns>Returns null if no child is found.</returns>
-        public TrieNode GetChild(char character)
+        public TrieNode GetChild(char character, IEqualityComparer<char> comparer = null)
         {
             // A dumb search, since we are not concerned about execution time.
             foreach (var child in this.children)
             {
-                if (child.Character.Equals(character))
+                if ((comparer != null && comparer.Equals(character, child.Character)) || child.Character.Equals(character))
                 {
                     return child;
                 }

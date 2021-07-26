@@ -109,7 +109,7 @@ namespace AhoCorasick
         /// </summary>
         /// <param name="text">Text to be searched.</param>
         /// <returns></returns>
-        public IList<MatchResult> FindAllMatches(string text)
+        public IList<MatchResult> FindAllMatches(string text, IEqualityComparer<char> comparer = null)
         {
             AssertSearchTerms();
 
@@ -125,7 +125,7 @@ namespace AhoCorasick
             foreach (var character in text)
             {
                 TrieNode node = null;
-                if ((node = currentNode.GetChild(character)) != null)
+                if ((node = currentNode.GetChild(character, comparer)) != null)
                 {
                     currentNode = node;
                 }
@@ -134,7 +134,7 @@ namespace AhoCorasick
                     while (currentNode != this.root)
                     {
                         currentNode = currentNode.FailureLink;
-                        if ((node = currentNode.GetChild(character)) != null)
+                        if ((node = currentNode.GetChild(character, comparer)) != null)
                         {
                             currentNode = node;
                             break;
