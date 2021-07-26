@@ -73,7 +73,7 @@ namespace AhoCorasick
         /// <returns>Returns null if no child is found.</returns>
         public TrieNode GetChild(char character)
         {
-            // A dump search, since we are not concerned about execution time.
+            // A dumb search, since we are not concerned about execution time.
             foreach (var child in this.children)
             {
                 if (child.Character.Equals(character))
