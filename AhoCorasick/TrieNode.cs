@@ -91,7 +91,7 @@ namespace AhoCorasick
         /// <param name="child">The child node.</param>
         public void AddChild(TrieNode child)
         {
-            // Resizing the array every time by one to keep it small. Memory-wise, this is the best we can do, but it consumes more CPU, makeing the process slower.
+            // Resizing the array every time by one to keep it small. Memory-wise, this is the best we can do, but it consumes more CPU, making the process slower.
             Array.Resize(ref this.children, this.children.Length + 1);
             this.children[this.children.Length - 1] = child;
         }
