@@ -60,7 +60,7 @@ namespace AhoCorasick
         }
 
         /// <summary>
-        /// 
+        /// Process the failure links.
         /// </summary>
         public void ProcessFailureLinks()
         {
